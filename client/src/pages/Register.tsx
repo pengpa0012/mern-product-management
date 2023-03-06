@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, TextField } from '@mui/material'
+import { Card, Paper, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom'
@@ -8,7 +8,7 @@ export const Register = () => {
   const navigate = useNavigate()
   return (
     <div className="min-h-screen grid place-items-center">
-      <Card className="px-8 py-12">
+      <Paper className="px-8 py-12" elevation={3}>
         <Grid container direction="column" alignContent="center" spacing={2}>
           <h1 className="text-center text-2xl pt-4">Create Account</h1>
           <Grid item>
@@ -25,7 +25,7 @@ export const Register = () => {
             <Button variant="contained" color="success" className="!mr-2 flex-1">Register</Button>
           </Grid>
         </Grid>
-      </Card>
+      </Paper>
     </div>
   )
 }
