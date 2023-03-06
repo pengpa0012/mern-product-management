@@ -27,6 +27,9 @@ const productSchema = new mongoose.Schema({
   price: {
     type: String
   },
+  active: {
+    type: Boolean
+  }
 })
 
 module.exports = {
