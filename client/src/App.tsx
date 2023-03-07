@@ -52,7 +52,7 @@ function App() {
         <Grid container spacing={3}>
           {dashboardList.map((dashboard, i) => (
             <Grid item xs={12} md={6} key={`dashboard-${i}`}>
-              <Paper elevation={3} className="h-[300px] grid place-items-center">
+              <Paper elevation={3} className="h-[300px] grid place-items-center rounded-md">
                 <div className="text-center">
                   <h2 className="text-lg mb-4">{dashboard.title}</h2>
                   <p className="text-6xl text-gray-700">{dashboard.count}</p>
