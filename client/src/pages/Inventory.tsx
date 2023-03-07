@@ -6,7 +6,7 @@ export const Inventory = () => {
     <div>
       <Sidebar />
       <div className="ml-[300px] p-4">
-        <h1>INVENTORY</h1>
+        <h3 className="mb-32 md:mb-20 text-lg font-semibold">INVENTORY</h3>
       </div>
     </div>
   )
