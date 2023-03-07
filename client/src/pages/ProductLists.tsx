@@ -1,4 +1,4 @@
-import { Grid, MenuItem, Paper, Select, Slider, TextField } from '@mui/material'
+import { Button, Grid, MenuItem, Paper, Select, Slider, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Sidebar } from '../components/Sidebar'
 
@@ -14,7 +14,10 @@ export const ProductLists = () => {
       <div className="ml-[300px] p-4">
         <h3 className="mb-12 md:mb-20 text-lg font-semibold">PRODUCT LISTS</h3>
         <div className="flex justify-between mb-10">
-          <TextField label="Search Product" variant="outlined" className="w-[300px]" />
+          <div className="flex">
+            <TextField label="Search Product" variant="outlined" className="w-[300px] !mr-4" />
+            <Button color="primary" variant="contained">Search</Button>
+          </div>
           {/* <div>
             <Select
               className="w-[200px]"
