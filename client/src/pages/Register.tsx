@@ -10,7 +10,7 @@ export const Register = () => {
     <div className="min-h-screen grid place-items-center">
       <Paper className="px-8 py-12" elevation={3}>
         <Grid container direction="column" alignContent="center" spacing={2}>
-          <h1 className="text-center text-2xl pt-4">Create Account</h1>
+          <h1 className="text-center text-2xl pt-4">Create an account</h1>
           <Grid item>
             <TextField id="outlined-basic" label="Username" variant="outlined" style={{ width: 300 }} />
           </Grid>
