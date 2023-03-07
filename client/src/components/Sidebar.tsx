@@ -4,25 +4,33 @@ import CategorySharpIcon from '@mui/icons-material/CategorySharp';
 import Inventory2SharpIcon from '@mui/icons-material/Inventory2Sharp';
 import AssessmentSharpIcon from '@mui/icons-material/AssessmentSharp';
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Sidebar = () => {
   const drawerWidth = 240
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const drawerList = [
     {
       icon: <DashboardIcon className="text-white" />,
-      title: "Dashboard"
+      title: "Dashboard",
+      route: "/"
     },
     {
       icon: <CategorySharpIcon className="text-white" />,
-      title: "Products"
+      title: "Products",
+      route: "/product-lists"
     },
     {
       icon: <Inventory2SharpIcon className="text-white" />,
-      title: "Inventory"
+      title: "Inventory",
+      route: "/inventory"
     },
     {
       icon: <AssessmentSharpIcon className="text-white" />,
-      title: "Reports"
+      title: "Reports",
+      route: "/reports"
     },
   ]
   return (
@@ -40,7 +48,7 @@ export const Sidebar = () => {
       <List>
         {drawerList.map((text, index) => (
           <ListItem key={text.title} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate(text.route)} selected={location.pathname == text.route}>
               <ListItemIcon>
                 {text.icon}
               </ListItemIcon>

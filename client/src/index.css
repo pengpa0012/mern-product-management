@@ -12,3 +12,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+.Mui-selected {
+  background: rgba(255, 255, 255, .2) !important;
+}
