@@ -1,5 +1,5 @@
 import { Table } from '@mui/joy'
-import { Button, Switch, TextField } from '@mui/material'
+import { Button, Pagination, Switch, TextField } from '@mui/material'
 import React from 'react'
 import { Sidebar } from '../components/Sidebar'
 
@@ -45,7 +45,7 @@ export const Inventory = () => {
           </thead>
           <tbody>
             {
-              [1,2,3,4,5].map(item => (
+              [1,2,3,4,5,6,7,8,9,10].map(item => (
                 <tr key={item} className="even:bg-white odd:bg-slate-50">
                   <td>Frozen yoghurt</td>
                   <td>159</td>
@@ -59,6 +59,9 @@ export const Inventory = () => {
             }
           </tbody>
         </Table>
+        <div className="flex justify-end mt-6">
+          <Pagination count={10} variant="outlined" shape="rounded" onChange={(event: React.ChangeEvent<unknown>, page: number) => console.log(page)} />
+        </div>
       </div>
     </div>
   )
