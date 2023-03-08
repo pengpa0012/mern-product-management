@@ -1,8 +1,10 @@
-import { Button, TextField } from '@mui/material'
+import { Table } from '@mui/joy'
+import { Button, Switch, TextField } from '@mui/material'
 import React from 'react'
 import { Sidebar } from '../components/Sidebar'
 
 export const Inventory = () => {
+
   return (
     <div>
       <Sidebar />
@@ -31,6 +33,32 @@ export const Inventory = () => {
             />
           </div> */}
         </div>
+        <Table aria-label="basic table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Type</th>
+              <th>Expiration Date</th>
+              <th>Active/Inactive</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              [1,2,3,4,5].map(item => (
+                <tr key={item} className="even:bg-white odd:bg-slate-50">
+                  <td>Frozen yoghurt</td>
+                  <td>159</td>
+                  <td>6</td>
+                  <td>24</td>
+                  <td>
+                    <Switch />
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </Table>
       </div>
     </div>
   )
