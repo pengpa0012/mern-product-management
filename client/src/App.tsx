@@ -8,6 +8,8 @@ import AllInboxIcon from '@mui/icons-material/AllInbox';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
@@ -31,14 +33,24 @@ function App() {
       icon: <AttachMoneyIcon className="!text-5xl text-gray-700" />
     },
     {
-      title: "Total Expired Items",
+      title: "Expired Items",
       count: "123",
       icon: <HourglassDisabledIcon className="!text-5xl text-gray-700" />
     },
     {
-      title: "Total Expiring Items",
+      title: "Expiring Items",
       count: "123",
       icon: <QueryBuilderIcon className="!text-5xl text-gray-700" />
+    },
+    {
+      title: "Active Items",
+      count: "123",
+      icon: <CheckBoxOutlinedIcon className="!text-5xl text-gray-700" />
+    },
+    {
+      title: "Inactive Items",
+      count: "123",
+      icon: <IndeterminateCheckBoxOutlinedIcon className="!text-5xl text-gray-700" />
     },
   ]
   
@@ -59,7 +71,7 @@ function App() {
         <h3 className="mb-12 md:mb-20 text-lg font-semibold">DASHBOARD</h3>
         <Grid container spacing={3}>
           {dashboardList.map((dashboard, i) => (
-            <Grid item xs={12} md={6} key={`dashboard-${i}`}>
+            <Grid item xs={12} md={4} key={`dashboard-${i}`}>
               <Paper elevation={3} className="h-[300px] grid place-items-center rounded-md">
                 <div className="text-center">
                   {dashboard.icon}
