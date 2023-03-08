@@ -1,11 +1,25 @@
 import { Box, Button, IconButton, MenuItem, Modal, Select, TextField } from '@mui/material';
-import React from 'react'
+import React, { useState } from 'react'
 import Textarea from '@mui/joy/Textarea';
 
 export const CreateProduct = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [image, setImage] = useState<File>()
+  const [previewIMG, setPreviewIMG] = useState("")
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => {
+    setOpen(false)
+    setPreviewIMG("")
+  }
+
+  const onImageUpload = (image: File) => {
+    if(image) {
+      const blob = window.URL.createObjectURL(image)
+      setPreviewIMG(blob)
+      setImage(image)
+    }
+  }
+
   return (
     <div>
       <Button onClick={handleOpen} className="!mb-8" variant="contained">Add Product</Button>
@@ -17,10 +31,10 @@ export const CreateProduct = () => {
         className="grid place-items-center overflow-y-scroll py-6"
       >
         <Box className="bg-white rounded-md p-6 flex flex-col gap-3">
-          <img src="https://via.placeholder.com/300x300" className="w-full rounded-md" />
+          <img src={previewIMG || "https://via.placeholder.com/300x300"} className="w-full max-w-[458px] max-h-[458px] rounded-md" />
           <Button variant="contained" component="label">
             Upload
-            <input hidden accept="image/*" multiple type="file" />
+            <input hidden accept="image/*" type="file" onChange={(e) => onImageUpload(e.target.files![0])} />
           </Button>
           <div className="flex gap-3">
             <TextField required label="Name" />
