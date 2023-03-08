@@ -3,13 +3,13 @@ const { Product } = require("../model")
 const router = express.Router()
 
 router.post("/createProduct", async (req, res) => {
-  const { title, description, image, category, price } = req.body
+  const { name, description, image, type, price } = req.body
 
   const values = {
-    title,
+    name,
     description,
     image,
-    category,
+    type,
     price
   }
 

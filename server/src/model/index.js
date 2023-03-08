@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
 })
 
 const productSchema = new mongoose.Schema({
-  title: {
+  name: {
     type: String
   },
   description: {
@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String
   },
-  category: {
+  type: {
     type: String
   },
   price: {
