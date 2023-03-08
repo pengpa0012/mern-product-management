@@ -27,10 +27,7 @@ export const Reports = () => {
               <MenuItem value={20}>Twenty</MenuItem>
               <MenuItem value={30}>Thirty</MenuItem>
             </Select>
-            <div className="flex">
-              <Button className="flex-1" color="info">Cancel</Button>
-              <Button variant="contained" color="primary" className="!ml-2 flex-1">Download</Button>
-            </div>
+            <Button variant="contained" color="primary" className="w-full">Download</Button>
           </Paper>
         </div>
       </div>
