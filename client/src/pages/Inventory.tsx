@@ -12,8 +12,8 @@ export const Inventory = () => {
         <h3 className="mb-32 md:mb-20 text-lg font-semibold">INVENTORY</h3>
         <div className="flex justify-between mb-10">
           <div className="flex">
-            <TextField label="Search Product" variant="outlined" className="w-[300px] !mr-4" />
-            <Button color="primary" variant="contained">Search</Button>
+            <TextField label="Search Product" variant="outlined" size="small" className="w-[300px] !mr-2" />
+            <Button color="primary" variant="contained" size="small">Search</Button>
           </div>
           {/* <div>
             <Select

@@ -1,8 +1,9 @@
 const express = require("express")
 const { Product } = require("../model")
+const { verifyJWT } = require("../utils")
 const router = express.Router()
 
-router.post("/createProduct", async (req, res) => {
+router.post("/createProduct", verifyJWT, async (req, res) => {
   const { name, description, image, type, price } = req.body
 
   const values = {
@@ -22,7 +23,7 @@ router.post("/createProduct", async (req, res) => {
   }
 })
 
-router.post("/updateProduct", async (req, res) => {
+router.post("/updateProduct", verifyJWT, async (req, res) => {
   const { _id, values } = req.body
 
   const result = Product.findByIdAndUpdate({_id}, {...values})
@@ -34,7 +35,7 @@ router.post("/updateProduct", async (req, res) => {
   }
 })
 
-router.post("/deleteProduct", async (req, res) => {
+router.post("/deleteProduct", verifyJWT, async (req, res) => {
   const { _id } = req.body
   
   const result = Product.deleteOne({_id})
@@ -47,7 +48,7 @@ router.post("/deleteProduct", async (req, res) => {
 })
 
 
-router.get("/getAllProducts", async (req, res) => {
+router.get("/getAllProducts", verifyJWT, async (req, res) => {
   const result = Product.find()
 
   if(result) {
@@ -56,3 +57,5 @@ router.get("/getAllProducts", async (req, res) => {
     res.status(500).send({ message: "Error" })
   }
 })
+
+module.exports = router

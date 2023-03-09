@@ -22,7 +22,7 @@ export const CreateProduct = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen} className="!mb-8" variant="contained">Add Product</Button>
+      <Button onClick={handleOpen} className="!mb-8" variant="contained" size="small">Add Product</Button>
       <Modal
         open={open}
         onClose={handleClose}

@@ -3,7 +3,8 @@ require("dotenv").config()
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const {Users} = require("../models")
+const {Users} = require("../model")
+const { verifyJWT } = require("../utils")
 
 router.post("/signup", async (req, res) => {
   const {username, password} = req.body
@@ -36,4 +37,15 @@ router.post("/login", async (req, res) => {
   }
 })
 
-module.exports = router
+router.get("/getUsers", verifyJWT, async (req, res) => {
+  const result = await Users.find()
+
+  if(result) {
+    res.status(200).send({users: result})
+  } else {
+    res.status(500).send({message: "Error signup"})
+  }
+
+})
+
+module.exports = router 
