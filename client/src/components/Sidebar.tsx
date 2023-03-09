@@ -43,7 +43,10 @@ export const Sidebar = () => {
     >
       <div className="flex items-center justify-between">
         <p>Logo</p>
-        <Button variant="text" className="!text-white" onClick={() => navigate("/login")}>Logout</Button>
+        <Button variant="text" className="!text-white" onClick={() => {
+          navigate("/login")
+          localStorage.removeItem("token")
+        }}>Logout</Button>
       </div>
       <List>
         {drawerList.map((text, index) => (
