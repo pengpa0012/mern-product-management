@@ -4,11 +4,12 @@ const { verifyJWT } = require("../utils")
 const router = express.Router()
 
 router.post("/createProduct", verifyJWT, async (req, res) => {
-  const { name, username, description, image, type, price } = req.body
+  const { name, username, expiration_date, description, image, type, price } = req.body
 
   const newProduct = new Product({
     name,
     username,
+    expiration_date,
     description,
     image,
     type,
