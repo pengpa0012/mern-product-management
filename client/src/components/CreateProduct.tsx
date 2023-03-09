@@ -23,6 +23,7 @@ export const CreateProduct = () => {
   const handleClose = () => {
     setOpen(false)
     setPreviewIMG("")
+    setProduct({})
   }
 
   const onImageUpload = (image: File) => {
@@ -35,7 +36,7 @@ export const CreateProduct = () => {
   }
 
   const onCreateProduct = () => {
-    const { name, price, image, type, expiration_date, description } = product
+    const { name, price, active, type, expiration_date, description } = product
 
     if(!name || !price) {
       return Notiflix.Notify.failure("Complete required fields!")
@@ -46,9 +47,8 @@ export const CreateProduct = () => {
       username,
       expiration_date,
       description,
-      image,
       type,
-      price,
+      price
     },
     {
       headers: {
@@ -57,6 +57,8 @@ export const CreateProduct = () => {
     })
     .then(response => {
       Notiflix.Notify.success(response.data.message)
+      setOpen(false)
+      setProduct({})
     })
     .catch((err) => Notiflix.Notify.failure(err.response.data.message))
 
@@ -94,7 +96,7 @@ export const CreateProduct = () => {
           </Select>
           {
             product.type == "Consumable" &&
-            <DatePicker label="Expiration Date" onChange={(e: any) => setProduct({...product, expiration_date: dayjs(e.$d).unix()})} />
+            <DatePicker label="Expiration Date" onChange={(e: any) => setProduct({...product, expiration_date: dayjs(e.$d)})} />
           }
           <Textarea placeholder="Description" minRows={3} onChange={(e) => setProduct({...product, description: e.target.value})} />
           <div className="flex gap-3">

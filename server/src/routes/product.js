@@ -14,6 +14,7 @@ router.post("/createProduct", verifyJWT, async (req, res) => {
     image,
     type,
     price,
+    active: true,
     date: Date.now()
   })
 

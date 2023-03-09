@@ -5,14 +5,10 @@ import { CreateProduct } from '../components/CreateProduct'
 import { Sidebar } from '../components/Sidebar'
 
 export const ProductLists = () => {
-  const [value, setValue] = useState<number[]>([0, 10])
-  const [allProducts, setallProducts] = useState([])
+  const [allProducts, setAllProducts] = useState([])
   const token = localStorage.getItem("token")
   const username = localStorage.getItem("username")
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[])
-  }
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_ENDPOINT}getAllProducts`,
@@ -24,7 +20,7 @@ export const ProductLists = () => {
         username
       }
     }).then(data => {
-      setallProducts(data.data.result)
+      setAllProducts(data.data.result)
     })
   }, [])
 
