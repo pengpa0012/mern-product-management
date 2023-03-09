@@ -15,6 +15,9 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String
   },
+  username: {
+    type: String
+  },
   description: {
     type: String
   },
@@ -29,6 +32,9 @@ const productSchema = new mongoose.Schema({
   },
   active: {
     type: Boolean
+  },
+  date: {
+    type: Date
   }
 })
 

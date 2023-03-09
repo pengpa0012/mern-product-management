@@ -4,17 +4,19 @@ const { verifyJWT } = require("../utils")
 const router = express.Router()
 
 router.post("/createProduct", verifyJWT, async (req, res) => {
-  const { name, description, image, type, price } = req.body
+  const { name, username, description, image, type, price } = req.body
 
-  const values = {
+  const newProduct = new Product({
     name,
+    username,
     description,
     image,
     type,
-    price
-  }
+    price,
+    date: Date.now()
+  })
 
-  const result = await Product.insertOne(values)
+  const result = await newProduct.save()
 
   if(result) {
     res.status(200).send({ message: "Added Product Successfully", result })
@@ -26,10 +28,10 @@ router.post("/createProduct", verifyJWT, async (req, res) => {
 router.post("/updateProduct", verifyJWT, async (req, res) => {
   const { _id, values } = req.body
 
-  const result = Product.findByIdAndUpdate({_id}, {...values})
+  const result = await Product.findByIdAndUpdate({_id}, {...values})
 
   if(result) {
-    res.status(200).send({ message: "Update Product Successfully", result })
+    res.status(200).send({ message: "Update Product Successfully" })
   } else {
     res.status(500).send({ message: "Update Product Failed" })
   }
@@ -38,7 +40,7 @@ router.post("/updateProduct", verifyJWT, async (req, res) => {
 router.post("/deleteProduct", verifyJWT, async (req, res) => {
   const { _id } = req.body
   
-  const result = Product.deleteOne({_id})
+  const result =  await Product.deleteOne({_id})
 
   if(result) {
     res.status(200).send({ message: "Remove Product Successfully", result })
@@ -49,7 +51,8 @@ router.post("/deleteProduct", verifyJWT, async (req, res) => {
 
 
 router.get("/getAllProducts", verifyJWT, async (req, res) => {
-  const result = Product.find()
+  const { username } = req.body
+  const result = await Product.find({username})
 
   if(result) {
     res.status(200).send({ result })
