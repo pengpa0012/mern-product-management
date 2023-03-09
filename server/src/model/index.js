@@ -27,6 +27,9 @@ const productSchema = new mongoose.Schema({
   type: {
     type: String
   },
+  expiration_date: {
+    type: String
+  },
   price: {
     type: String
   },
