@@ -16,7 +16,14 @@ export const Register = () => {
 
   const onRegister = () => {
     const { username, password, repeatPassword } = profile
-    if(!username || !password || !repeatPassword || password !== repeatPassword) return
+    if(!username || !password || !repeatPassword) {
+      Notiflix.Notify.failure("Complete all fields!")
+      return
+    }
+    if(password !== repeatPassword) {
+      Notiflix.Notify.failure("Password does not match!")
+      return
+    }
     axios.post(`${import.meta.env.VITE_ENDPOINT}signup`, {
       username,
       password

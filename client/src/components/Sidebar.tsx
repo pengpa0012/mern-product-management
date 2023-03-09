@@ -5,6 +5,7 @@ import Inventory2SharpIcon from '@mui/icons-material/Inventory2Sharp';
 import AssessmentSharpIcon from '@mui/icons-material/AssessmentSharp';
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
+import Notiflix from 'notiflix';
 
 export const Sidebar = () => {
   const drawerWidth = 240
@@ -33,6 +34,30 @@ export const Sidebar = () => {
       route: "/reports"
     },
   ]
+
+  const onLogout = () => {
+    Notiflix.Confirm.show(
+      'Logout',
+      'Are you sure?',
+      'Logout',
+      'Cancel',
+      function okCb() {
+        navigate("/login")
+        localStorage.removeItem("token")
+        localStorage.removeItem("username")
+        navigate("/login")
+      },
+      function cancelCb() {
+      },
+      {
+        titleColor: '#fff',
+        backgroundColor: "#242424",
+        messageFontSize: '18px',
+        messageColor: "#fff",
+        okButtonBackground: '#ef4444'
+      },
+    )
+  }
   return (
     <AppBar
       position="fixed"
@@ -43,10 +68,7 @@ export const Sidebar = () => {
     >
       <div className="flex items-center justify-between">
         <p>Logo</p>
-        <Button variant="text" className="!text-white" onClick={() => {
-          navigate("/login")
-          localStorage.removeItem("token")
-        }}>Logout</Button>
+        <Button variant="text" className="!text-white" onClick={onLogout}>Logout</Button>
       </div>
       <List>
         {drawerList.map((text, index) => (
