@@ -1,11 +1,24 @@
 import { Box, Button, IconButton, MenuItem, Modal, Select, TextField } from '@mui/material';
 import React, { useState } from 'react'
 import Textarea from '@mui/joy/Textarea';
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import Notiflix from 'notiflix';
+import axios from 'axios';
 
 export const CreateProduct = () => {
-  const [image, setImage] = useState<File>()
   const [previewIMG, setPreviewIMG] = useState("")
   const [open, setOpen] = useState(false)
+  const [product, setProduct] = useState<any>({
+    image: "",
+    name: "",
+    price: "",
+    type: "",
+    expiration_date: "",
+    description: ""
+  })
+  const username = localStorage.getItem("username")
+  const token = localStorage.getItem("token")
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
@@ -16,8 +29,37 @@ export const CreateProduct = () => {
     if(image) {
       const blob = window.URL.createObjectURL(image)
       setPreviewIMG(blob)
-      setImage(image)
+      //Upload image to firebase here...
+      setProduct({...product, image: blob})
     }
+  }
+
+  const onCreateProduct = () => {
+    const { name, price, image, type, expiration_date, description } = product
+
+    if(!name || !price) {
+      return Notiflix.Notify.failure("Complete required fields!")
+    }
+
+    axios.post(`${import.meta.env.VITE_ENDPOINT}createProduct`, {
+      name,
+      username,
+      expiration_date,
+      description,
+      image,
+      type,
+      price,
+    },
+    {
+      headers: {
+        "x-access-token": token
+      }
+    })
+    .then(response => {
+      Notiflix.Notify.success(response.data.message)
+    })
+    .catch((err) => Notiflix.Notify.failure(err.response.data.message))
+
   }
 
   return (
@@ -37,22 +79,27 @@ export const CreateProduct = () => {
             <input hidden accept="image/*" type="file" onChange={(e) => onImageUpload(e.target.files![0])} />
           </Button>
           <div className="flex gap-3">
-            <TextField required label="Name" />
-            <TextField required type="number" label="Price" />
+            <TextField required label="Name" onChange={(e) => setProduct({...product, name: e.target.value})} />
+            <TextField required type="number" label="Price" onChange={(e) => setProduct({...product, price: e.target.value})} />
           </div>
           <Select
-            defaultValue={1}
-            placeholder="Type"
+            defaultValue="N/A"
             className="w-full"
+            required
+            onChange={(e) => setProduct({...product, type: e.target.value})}
           >
-            <MenuItem value={1}>Type 1</MenuItem>
-            <MenuItem value={2}>Type 2</MenuItem>
-            <MenuItem value={2}>Type 3</MenuItem>
+            <MenuItem value="N/A">N/A</MenuItem>
+            <MenuItem value="Consumable">Consumable</MenuItem>
+            <MenuItem value="Non-Consumable">Non-Consumable</MenuItem>
           </Select>
-          <Textarea placeholder="Description" minRows={3} />
+          {
+            product.type == "Consumable" &&
+            <DatePicker label="Expiration Date" onChange={(e: any) => setProduct({...product, expiration_date: dayjs(e.$d).unix()})} />
+          }
+          <Textarea placeholder="Description" minRows={3} onChange={(e) => setProduct({...product, description: e.target.value})} />
           <div className="flex gap-3">
             <Button onClick={handleClose} className="w-full">Cancel</Button>
-            <Button variant="contained" color="primary" className="w-full">Confirm</Button>
+            <Button variant="contained" color="primary" className="w-full" onClick={onCreateProduct}>Confirm</Button>
           </div>
         </Box>
       </Modal>

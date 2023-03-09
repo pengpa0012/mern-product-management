@@ -52,7 +52,7 @@ router.post("/deleteProduct", verifyJWT, async (req, res) => {
 
 
 router.get("/getAllProducts", verifyJWT, async (req, res) => {
-  const { username } = req.body
+  const { username } = req.query
   const result = await Product.find({username})
 
   if(result) {
