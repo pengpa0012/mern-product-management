@@ -10,10 +10,19 @@ import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import axios from 'axios'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
   const navigate = useNavigate()
+  const [allProducts, setAllProducts] = useState({
+    items: 0,
+    price: 0,
+    active: 0,
+    inactive: 0
+  })
+  const token = localStorage.getItem("token")
+  const username = localStorage.getItem("username")
   
   useEffect(() => {
    if(!isLoggedIn) {
@@ -21,15 +30,37 @@ function App() {
    }
   }, [])
 
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_ENDPOINT}getAllProducts`,
+    {
+      headers: {
+        "x-access-token": token
+      },
+      params: {
+        username
+      }
+    }).then(data => {
+      // add expiring and expired items
+      // expiring 1 month before
+      setAllProducts({
+        ...allProducts,
+        items: data.data.result.length,
+        price: data.data.result.reduce((acc: any, val: any) => acc + Number(val.price), 0),
+        inactive: data.data.result.reduce((acc: any, val: any) => acc + Number(val.active == false), 0),
+        active: data.data.result.reduce((acc: any, val: any) => acc + Number(val.active), 0)
+      })
+    }).catch(console.error)
+  }, [])
+
   const dashboardList = [
     {
       title: "Total Items",
-      count: "123",
+      count: allProducts.items,
       icon: <AllInboxIcon className="!text-5xl text-gray-700" />
     },
     {
       title: "Overall Price",
-      count: "123",
+      count: `₱${allProducts.price?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}`,
       icon: <AttachMoneyIcon className="!text-5xl text-gray-700" />
     },
     {
@@ -44,12 +75,12 @@ function App() {
     },
     {
       title: "Active Items",
-      count: "123",
+      count: allProducts.active,
       icon: <CheckBoxOutlinedIcon className="!text-5xl text-gray-700" />
     },
     {
       title: "Inactive Items",
-      count: "123",
+      count: allProducts.inactive,
       icon: <IndeterminateCheckBoxOutlinedIcon className="!text-5xl text-gray-700" />
     },
   ]
