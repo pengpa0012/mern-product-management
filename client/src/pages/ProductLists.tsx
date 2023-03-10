@@ -29,7 +29,7 @@ export const ProductLists = () => {
       <Sidebar />
       <div className="ml-[300px] p-4">
         <h3 className="mb-12 md:mb-20 text-lg font-semibold">PRODUCT LISTS</h3>
-        <CreateProduct />
+        {/* <CreateProduct /> */}
         <Grid container spacing={3}>
         {allProducts.map((item: any) => (
           <Grid item xs={12} md={6} lg={3} key={item}>

@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import Notiflix from 'notiflix';
 import axios from 'axios';
 
-export const CreateProduct = () => {
+export const CreateProduct = ({setAllProducts, allProducts, setFilteredProducts, filteredProducts}: any) => {
   const [previewIMG, setPreviewIMG] = useState("")
   const [open, setOpen] = useState(false)
   const [product, setProduct] = useState<any>({
@@ -56,17 +56,22 @@ export const CreateProduct = () => {
       }
     })
     .then(response => {
+      setAllProducts([...allProducts, response.data.result])
+      setFilteredProducts([...filteredProducts, response.data.result])
       Notiflix.Notify.success(response.data.message)
       setOpen(false)
       setProduct({})
     })
-    .catch((err) => Notiflix.Notify.failure(err.response.data.message))
+    .catch((err) => {
+      console.log(err)
+      Notiflix.Notify.failure(err.response.data.message)
+    })
 
   }
 
   return (
     <div>
-      <Button onClick={handleOpen} className="!mb-8" variant="contained" size="small">Add Product</Button>
+      <Button onClick={handleOpen} variant="contained" size="small">Add Product</Button>
       <Modal
         open={open}
         onClose={handleClose}

@@ -18,11 +18,11 @@ export const Sidebar = () => {
       title: "Dashboard",
       route: "/"
     },
-    {
-      icon: <CategorySharpIcon className="text-white" />,
-      title: "Products",
-      route: "/product-lists"
-    },
+    // {
+    //   icon: <CategorySharpIcon className="text-white" />,
+    //   title: "Products",
+    //   route: "/product-lists"
+    // },
     {
       icon: <Inventory2SharpIcon className="text-white" />,
       title: "Inventory",

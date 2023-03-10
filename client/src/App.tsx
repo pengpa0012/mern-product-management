@@ -58,13 +58,10 @@ function App() {
     <div className="App">
       {/* 
         TODO
-          Pages
-            Signup/Login
-            Dashboard
-            Add Product
-            Product List
-              Update Product
-            Reports
+          Dashboard Queries
+          Image upload
+          Product active/inactive
+          Product delete/update
       */}
       <Sidebar />
       <div className="ml-[300px] p-4">
