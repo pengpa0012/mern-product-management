@@ -1,7 +1,8 @@
 import { Table } from '@mui/joy'
-import { Button, Pagination, Switch, TextField } from '@mui/material'
+import { Button, Drawer, Pagination, Switch, TextField } from '@mui/material'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import Notiflix from 'notiflix'
 import React, { useEffect, useState } from 'react'
 import { CreateProduct } from '../components/CreateProduct'
 import { Sidebar } from '../components/Sidebar'
@@ -13,6 +14,7 @@ export const Inventory = () => {
   const username = localStorage.getItem("username")
   const [loading, setLoading] = useState(false)
   const [searchProduct, setSearchProduct] = useState("")
+  const [openDrawer, setOpenDrawer] = useState(false)
 
   useEffect(() => {
     getAllProducts()
@@ -31,12 +33,27 @@ export const Inventory = () => {
     }).then(data => {
       setFilteredProducts(data.data.result)
       setAllProducts(data.data.result)
-    })
+    }).catch(console.error)
   }
 
-  const onStatusChange = (item: any) => {
+  const onStatusChange = (item: any, active: boolean) => {
     setLoading(true)
     setTimeout(() => {
+      axios.post(`${import.meta.env.VITE_ENDPOINT}updateProduct`,
+      {
+        _id: item._id,
+        values: {
+          ...item,
+          active: active
+        }
+      },
+      {
+        headers: {
+          "x-access-token": token
+        }
+      }).then(data => {
+        Notiflix.Notify.success("Updated status!")
+      }).catch(console.error)
       setLoading(false)
     },2000)
   }
@@ -96,20 +113,27 @@ export const Inventory = () => {
           <tbody>
             {
               filteredProducts.map((item: any, i) => (
-                <tr key={item._id} className="even:bg-white odd:bg-slate-50">
+                <tr key={item._id} className="even:bg-white odd:bg-slate-50 cursor-pointer hover:bg-slate-100" onClick={() => setOpenDrawer(true)}>
                   <td>{item.name}</td>
                   <td>{item.description || "N/A"}</td>
                   <td>{item.price.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}</td>
                   <td>{item.type || "N/A"}</td>
                   <td>{item.expiration_date ? dayjs(item.expiration_date).format("LL") : "N/A"}</td>
                   <td>
-                    <Switch defaultChecked={item.active} disabled={loading} onChange={() => onStatusChange(item)} />
+                    <Switch defaultChecked={item.active} disabled={loading} onChange={(e, checked) => onStatusChange(item, checked)} />
                   </td>
                 </tr>
               ))
             }
           </tbody>
         </Table>
+        <Drawer
+          open={openDrawer}
+          anchor="right"
+          onClose={() => setOpenDrawer(false)}
+        >
+          <h1 className="!w-[500px]">Test</h1>
+        </Drawer>
         {/* <div className="flex justify-end mt-6">
           <Pagination count={10} variant="outlined" shape="rounded" onChange={(event: React.ChangeEvent<unknown>, page: number) => console.log(page)} />
         </div> */}
