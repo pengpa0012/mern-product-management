@@ -5,3 +5,7 @@ export const bytesToSize = (bytes: number) => {
   if (i === 0) return `${bytes} ${sizes[i]})`
   return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`
 }
+
+export const formatDashboardData = (array: any[], value: any) => {
+  array.reduce((acc: any, val: any) => acc + Number(value), 0)
+}

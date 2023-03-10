@@ -11,6 +11,7 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
@@ -19,7 +20,9 @@ function App() {
     items: 0,
     price: 0,
     active: 0,
-    inactive: 0
+    inactive: 0,
+    expired_items: 0,
+    expiring_items: 0
   })
   const token = localStorage.getItem("token")
   const username = localStorage.getItem("username")
@@ -40,14 +43,14 @@ function App() {
         username
       }
     }).then(data => {
-      // add expiring and expired items
-      // expiring 1 month before
       setAllProducts({
         ...allProducts,
         items: data.data.result.length,
         price: data.data.result.reduce((acc: any, val: any) => acc + Number(val.price), 0),
         inactive: data.data.result.reduce((acc: any, val: any) => acc + Number(val.active == false), 0),
-        active: data.data.result.reduce((acc: any, val: any) => acc + Number(val.active), 0)
+        active: data.data.result.reduce((acc: any, val: any) => acc + Number(val.active), 0),
+        expiring_items: data.data.result.reduce((acc: any, val: any) => acc + Number(dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).diff(dayjs(), 'month') <= 1), 0),
+        expired_items: data.data.result.reduce((acc: any, val: any) => acc + Number(!dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).isAfter(dayjs())), 0)
       })
     }).catch(console.error)
   }, [])
@@ -65,12 +68,12 @@ function App() {
     },
     {
       title: "Expired Items",
-      count: "123",
+      count: allProducts.expired_items,
       icon: <HourglassDisabledIcon className="!text-5xl text-gray-700" />
     },
     {
       title: "Expiring Items",
-      count: "123",
+      count: allProducts.expiring_items,
       icon: <QueryBuilderIcon className="!text-5xl text-gray-700" />
     },
     {
