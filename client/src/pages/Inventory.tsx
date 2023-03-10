@@ -59,11 +59,11 @@ export const Inventory = () => {
       <div className="ml-[300px] p-4">
         <h3 className="mb-32 md:mb-20 text-lg font-semibold">INVENTORY</h3>
         <div className="flex items-center justify-between mb-10">
-          <CreateProduct setAllProducts={setAllProducts} allProducts={allProducts} setFilteredProducts={setFilteredProducts} filteredProducts={filteredProducts} />
           <div className="flex">
             <TextField label="Search Product Name" variant="outlined" size="small" className="w-[300px] !mr-2" onChange={(e: any) => setSearchProduct(e.target.value)} />
             <Button color="primary" variant="contained" size="small" onClick={onSearchProduct}>Search</Button>
           </div>
+          <CreateProduct setAllProducts={setAllProducts} allProducts={allProducts} setFilteredProducts={setFilteredProducts} filteredProducts={filteredProducts} />
           {/* <div>
             <Select
               className="w-[200px]"
