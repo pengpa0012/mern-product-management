@@ -91,6 +91,12 @@ export const Inventory = () => {
       'Delete',
       'Cancel',
       function okCb() {
+        
+        if(item.image){
+          const deletedImg = ref(storage, `${item.image.split("/").at(-1).split("?")[0]}`)
+          deleteObject(deletedImg)
+        }
+
         axios.post(`${import.meta.env.VITE_ENDPOINT}deleteProduct`,
         {
           _id: item._id
@@ -136,7 +142,7 @@ export const Inventory = () => {
       uploadBytes(imageRef, updateImage).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
           axios.post(`${import.meta.env.VITE_ENDPOINT}updateProduct`, {
-            username,
+            _id,
             values: {
               name,
               price,
@@ -221,6 +227,7 @@ export const Inventory = () => {
           onClose={() => {
             setOpenDrawer(false)
             setPreviewIMG("")
+            setUpdateImage(undefined)
           }}
         >
           <div className="!w-[500px] p-6">
@@ -234,7 +241,10 @@ export const Inventory = () => {
               }
               {updateImage &&
                 <div className="flex">
-                  <Button variant="text" component="label" className="w-full !mr-2" onClick={() => setPreviewIMG("")}>Cancel</Button>
+                  <Button variant="text" component="label" className="w-full !mr-2" onClick={() => {
+                    setUpdateImage(undefined)
+                    setPreviewIMG("")
+                    }}>Cancel</Button>
                   <Button variant="contained" color="success" component="label" className="w-full" onClick={() => onUpdateImage()}>Save</Button>
                 </div>
               }
