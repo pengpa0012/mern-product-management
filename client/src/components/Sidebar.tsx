@@ -61,7 +61,7 @@ export const Sidebar = () => {
   return (
     <AppBar
       position="fixed"
-      className="min-h-screen !left-0 justify-between p-4 mr-[300px]"
+      className="min-h-screen !left-0 justify-between !p-4"
       sx={{
         width: 300,
       }}

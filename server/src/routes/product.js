@@ -28,9 +28,9 @@ router.post("/createProduct", verifyJWT, async (req, res) => {
 })
 
 router.post("/updateProduct", verifyJWT, async (req, res) => {
-  const { _id, values } = req.body
+  const { username, values } = req.body
 
-  const result = await Product.findByIdAndUpdate({_id}, {...values})
+  const result = await Product.findOneAndUpdate({username}, {...values})
 
   if(result) {
     res.status(200).send({ message: "Update Product Successfully" })

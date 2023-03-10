@@ -5,8 +5,12 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import { bytesToSize } from '../utilities';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../utilities/firebase';
+import { v4 } from "uuid";
 
-export const CreateProduct = ({setAllProducts, allProducts, setFilteredProducts, filteredProducts}: any) => {
+export const CreateProduct = ({setAllProducts, allProducts, setFilteredProducts, filteredProducts, isUpdate, opened}: any) => {
   const [previewIMG, setPreviewIMG] = useState("")
   const [open, setOpen] = useState(false)
   const [product, setProduct] = useState<any>({
@@ -30,43 +34,53 @@ export const CreateProduct = ({setAllProducts, allProducts, setFilteredProducts,
     if(image) {
       const blob = window.URL.createObjectURL(image)
       setPreviewIMG(blob)
-      //Upload image to firebase here...
-      setProduct({...product, image: blob})
+      setProduct({...product, image})
     }
   }
 
   const onCreateProduct = () => {
-    const { name, price, active, type, expiration_date, description } = product
+    const { name, price, type, image, expiration_date, description } = product
 
     if(!name || !price) {
       return Notiflix.Notify.failure("Complete required fields!")
     }
 
-    axios.post(`${import.meta.env.VITE_ENDPOINT}createProduct`, {
-      name,
-      username,
-      expiration_date,
-      description,
-      type,
-      price
-    },
-    {
-      headers: {
-        "x-access-token": token
-      }
-    })
-    .then(response => {
-      setAllProducts([...allProducts, response.data.result])
-      setFilteredProducts([...filteredProducts, response.data.result])
-      Notiflix.Notify.success(response.data.message)
-      setOpen(false)
-      setProduct({})
-    })
-    .catch((err) => {
-      console.log(err)
-      Notiflix.Notify.failure(err.response.data.message)
-    })
+    if(bytesToSize(image.size).includes("MB")) {
+      Notiflix.Notify.failure("Image size must be under 1MB")
+      return
+    }
 
+    const imageRef = ref(storage, `${image.name + v4()}`)
+
+    uploadBytes(imageRef, image).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        axios.post(`${import.meta.env.VITE_ENDPOINT}createProduct`, {
+          name,
+          image: url,
+          username,
+          expiration_date,
+          description,
+          type,
+          price
+        },
+        {
+          headers: {
+            "x-access-token": token
+          }
+        })
+        .then(response => {
+          setAllProducts([...allProducts, response.data.result])
+          setFilteredProducts([...filteredProducts, response.data.result])
+          Notiflix.Notify.success(response.data.message)
+          setOpen(false)
+          setProduct({})
+        })
+        .catch((err) => {
+          console.log(err)
+          Notiflix.Notify.failure(err.response.data.message)
+        })
+      })
+    })
   }
 
   return (
