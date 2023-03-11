@@ -8,6 +8,7 @@ const cors = require("cors")
 const connectDB = require("./config/db")
 const accountRoutes = require("./routes/account")
 const productRoutes = require("./routes/product")
+const reportsRoutes = require("./routes/reports")
 
 connectDB()
 
@@ -18,6 +19,7 @@ app.use(cors())
 
 app.use("/", accountRoutes)
 app.use("/", productRoutes)
+app.use("/", reportsRoutes)
 
 const PORT = 3000
 

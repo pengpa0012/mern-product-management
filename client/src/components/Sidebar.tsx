@@ -28,11 +28,11 @@ export const Sidebar = () => {
       title: "Inventory",
       route: "/inventory"
     },
-    {
-      icon: <AssessmentSharpIcon className="text-white" />,
-      title: "Reports",
-      route: "/reports"
-    },
+    // {
+    //   icon: <AssessmentSharpIcon className="text-white" />,
+    //   title: "Reports",
+    //   route: "/reports"
+    // },
   ]
 
   const onLogout = () => {

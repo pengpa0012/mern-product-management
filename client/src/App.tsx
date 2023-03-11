@@ -43,14 +43,14 @@ function App() {
         username
       }
     }).then(data => {
+      const result = data.data.result
       setAllProducts({
-        ...allProducts,
-        items: data.data.result.length,
-        price: data.data.result.reduce((acc: any, val: any) => acc + Number(val.price), 0),
-        inactive: data.data.result.reduce((acc: any, val: any) => acc + Number(val.active == false), 0),
-        active: data.data.result.reduce((acc: any, val: any) => acc + Number(val.active), 0),
-        expiring_items: data.data.result.reduce((acc: any, val: any) => acc + Number(dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).diff(dayjs(), 'month') <= 1), 0),
-        expired_items: data.data.result.reduce((acc: any, val: any) => acc + Number(!dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).isAfter(dayjs())), 0)
+        items: result.length,
+        price: result.reduce((acc: any, val: any) => acc + Number(val.price), 0),
+        inactive: result.reduce((acc: any, val: any) => acc + Number(val.active == false), 0),
+        active: result.reduce((acc: any, val: any) => acc + Number(val.active), 0),
+        expiring_items: result.reduce((acc: any, val: any) => acc + Number(dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).diff(dayjs(), 'month') <= 1), 0),
+        expired_items: result.reduce((acc: any, val: any) => acc + Number(!dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).isAfter(dayjs())), 0)
       })
     }).catch(console.error)
   }, [])
@@ -92,10 +92,7 @@ function App() {
     <div className="App">
       {/* 
         TODO
-          Dashboard Queries
-          Image upload
-          Product active/inactive
-          Product delete/update
+          Reports Queries (Excel File)
       */}
       <Sidebar />
       <div className="ml-[300px] p-4">
