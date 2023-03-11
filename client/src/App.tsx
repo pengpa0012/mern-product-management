@@ -22,7 +22,6 @@ function App() {
     active: 0,
     inactive: 0,
     expired_items: 0,
-    expiring_items: 0
   })
   const token = localStorage.getItem("token")
   const username = localStorage.getItem("username")
@@ -49,7 +48,6 @@ function App() {
         price: result.reduce((acc: any, val: any) => acc + Number(val.price), 0),
         inactive: result.reduce((acc: any, val: any) => acc + Number(val.active == false), 0),
         active: result.reduce((acc: any, val: any) => acc + Number(val.active), 0),
-        expiring_items: result.reduce((acc: any, val: any) => acc + Number(dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).diff(dayjs(), 'month') <= 1), 0),
         expired_items: result.reduce((acc: any, val: any) => acc + Number(!dayjs(dayjs(val.expiration_date).format("YYYY-M-DD")).isAfter(dayjs())), 0)
       })
     }).catch(console.error)
@@ -72,11 +70,6 @@ function App() {
       icon: <HourglassDisabledIcon className="!text-5xl text-gray-700" />
     },
     {
-      title: "Expiring Items",
-      count: allProducts.expiring_items,
-      icon: <QueryBuilderIcon className="!text-5xl text-gray-700" />
-    },
-    {
       title: "Active Items",
       count: allProducts.active,
       icon: <CheckBoxOutlinedIcon className="!text-5xl text-gray-700" />
@@ -97,7 +90,7 @@ function App() {
       <Sidebar />
       <div className="ml-[300px] p-4">
         <h3 className="mb-12 md:mb-20 text-lg font-semibold">DASHBOARD</h3>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} justifyContent="center">
           {dashboardList.map((dashboard, i) => (
             <Grid item xs={12} md={4} key={`dashboard-${i}`}>
               <Paper elevation={3} className="h-[300px] grid place-items-center rounded-md">

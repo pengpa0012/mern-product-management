@@ -67,7 +67,7 @@ export const Sidebar = () => {
       }}
     >
       <div className="flex items-center justify-between">
-        <p>Logo</p>
+        <p className="text-sm">Product Management</p>
         <Button variant="text" className="!text-white" onClick={onLogout}>Logout</Button>
       </div>
       <List>
@@ -82,7 +82,7 @@ export const Sidebar = () => {
           </ListItem>
         ))}
       </List>
-      <p className="text-center">Footer Here</p>
+      <p className="text-center">Made by Godfrey Patricio</p>
     </AppBar>
   )
 }

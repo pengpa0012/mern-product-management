@@ -45,18 +45,18 @@ export const CreateProduct = ({setAllProducts, allProducts, setFilteredProducts,
       return Notiflix.Notify.failure("Complete required fields!")
     }
 
-    if(bytesToSize(image.size).includes("MB")) {
+    if(bytesToSize(image?.size).includes("MB")) {
       Notiflix.Notify.failure("Image size must be under 1MB")
       return
     }
 
-    const imageRef = ref(storage, `${image.name + v4()}`)
+    const imageRef = ref(storage, `${image?.name + v4()}`)
 
     uploadBytes(imageRef, image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         axios.post(`${import.meta.env.VITE_ENDPOINT}createProduct`, {
           name,
-          image: url,
+          image: image ? url : "",
           username,
           expiration_date,
           description,

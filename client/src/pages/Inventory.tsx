@@ -106,8 +106,9 @@ export const Inventory = () => {
             "x-access-token": token
           }
         }).then(data => {
-          const updatedProducts = [...allProducts]
+          const updatedProducts = [...filteredProducts]
           const filtered = updatedProducts.filter((product: any) => product._id !== item._id)
+          console.log(filtered)
           setFilteredProducts(filtered)
           Notiflix.Notify.success("Deleted Product!")
         }).catch(console.error)
