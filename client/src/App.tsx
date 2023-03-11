@@ -14,7 +14,6 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
   const navigate = useNavigate()
   const [allProducts, setAllProducts] = useState({
     items: 0,
@@ -27,7 +26,7 @@ function App() {
   const username = localStorage.getItem("username")
   
   useEffect(() => {
-   if(!isLoggedIn) {
+   if(!username) {
     navigate("/login")
    }
   }, [])
