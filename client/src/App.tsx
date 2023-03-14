@@ -24,6 +24,7 @@ function App() {
   })
   const token = localStorage.getItem("token")
   const username = localStorage.getItem("username")
+
   
   useEffect(() => {
    if(!username) {
